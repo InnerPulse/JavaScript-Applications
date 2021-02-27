@@ -1,4 +1,4 @@
-<h1 align="center"> JavaScript Advanced - January 2021 <h1>
+<h1 align="center"> JavaScript Applications - March 2021 <h1>
 <p align="center">
   <a href="https://softuni.bg/trainings/3217/js-advanced-january-2021/internal">
     <img src="https://i.imgur.com/arAr8gZ.png" />
@@ -8,11 +8,11 @@
 <h1 align="center">About the current semester</h1>
 
 
-<p><i>With "JavaScript Advanced" students gain in-depth knowledge of the JavaScript language, such as advanced syntax, working with matrices, objects, classes, and advanced functions. Students will also study more complex concepts such as function context, explicit binding, event loop. The course will further develop their algorithmic thinking. After the successful completion of this course, the students will have the opportunity to work with the DOM tree, to manipulate it and to work with "events". The functional and OOP approaches to JavaScript programming will be reviewed and concepts such as inheritance, object composition and prototype chain will be studied.</i></p>
+<p><i>With "JavaScript Applications" students will learn what HTTP requests are and how to use them, what REST Services are, what a Baas (backend as a service) is and how to work with it, what asynchronous code means (Promises, using async / await), what Templating and Routing are. During the semester every student will create a Single Page Application, using the techniques learned from previous lectures, where they will be assessed. Students will learn what the architecture of an application is and how to properly structure an applications. Towards the end of the semester students will look at different design templates and their practical direction, they will create their own web components using the Web Components standard and they will build a Webpack environment from scratch.</i></p>
 
 <h3 align="center">About the presented solutions</h3>
 
-- Every solution is 100/100 in the university's Judge testing sistem, meaning they were all correct.
+- Every solution is correct.
 - The difficulties in the different assignments is increasing with the first being easiest and the last being hardest or with other words in ascending order.
 - In a subfolder in every solution's folder, there is the problems description in which for each problem we have a sample input.
 - These are simple solutions done with the knowledge I have accumulate so far and of course they can go under further optimization.
