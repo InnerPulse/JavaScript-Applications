@@ -38,7 +38,7 @@ function createPreview(recipe) {
 async function getRecipeDetails(id, preview) {
     const url = `http://localhost:3030/jsonstore/cookbook/details/${id}`; 
     // the way the id is implemented could result in a HTML injection but this will never be done in production
-    // without validatiion function even though in this particular case the id doesn't come from the outside.
+    // without validation function even though in this particular case the id doesn't come from the outside.
     const response = await fetch(url);
     const data = await response.json();
 
