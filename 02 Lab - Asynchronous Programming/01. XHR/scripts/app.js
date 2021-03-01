@@ -1,7 +1,7 @@
 // Disclaimer:
-// I'm very aware that nowadays we don't use the following approach on the majority of the websites,
-// here is done for educational purposes only!
-// For future tasks I will use async/await and not so often then/catch.
+// I'm very aware that nowadays the majority of the time we don't use the following approach.
+// This is done for educational purposes only!
+// For future tasks I will use async/await and not so often then/catch techniques.
 
 function loadRepos() {
     const url = 'https://api.github.com/users/testnakov/repos';
