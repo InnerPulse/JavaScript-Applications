@@ -1,6 +1,6 @@
 // Disclaimer:
-// The task is to make XHR (XmlHttpRequest) for educational purposes only!
-// I'm very aware that nowadays we don't use XHR on the majority of websites.
+// I'm very aware that nowadays we don't use the following approach on the majority of the websites,
+// here is done for educational purposes only!
 // For future tasks I will use async/await and not so often then/catch.
 
 function loadRepos() {
