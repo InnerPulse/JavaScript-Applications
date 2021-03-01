@@ -33,5 +33,3 @@ async function loadCommits() {
         return alert(error);
     }
 }
-
-
