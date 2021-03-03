@@ -2,7 +2,7 @@ window.addEventListener('load', () => loadRecipes());
 
 async function loadRecipes() {
     const url = 'http://localhost:3030/jsonstore/cookbook/recipes';
-    const mainElement = document.querySelector('body > main');
+    const mainElement = document.querySelector('main');
 
     try {
         const response = await fetch(url);
