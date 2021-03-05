@@ -3,14 +3,18 @@ function lockedProfile() {
 }
 
 async function getUsers() {
-    const main = document.getElementById('main');
-    const url = 'http://localhost:3030/jsonstore/advanced/profiles';
-    const response = await fetch(url);
-    const allUsers = await response.json();
+    try {
+        const main = document.getElementById('main');
+        const url = 'http://localhost:3030/jsonstore/advanced/profiles';
+        const response = await fetch(url);
+        const allUsers = await response.json();
 
-    Object.values(allUsers)
-        .map(createProfileCard)
-        .forEach((user) => main.append(user));
+        Object.values(allUsers)
+            .map(createProfileCard)
+            .forEach((user) => main.append(user));
+    } catch (error) {
+        alert(error);
+    }
 }
 
 function createProfileCard({ age, email, username, _id }) {

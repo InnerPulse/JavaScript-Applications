@@ -70,30 +70,42 @@ async function getWeather() {
 }
 
 async function getCode(cityName) {
-    const url = 'http://localhost:3030/jsonstore/forecaster/locations';
+    try {
+        const url = 'http://localhost:3030/jsonstore/forecaster/locations';
 
-    const response = await fetch(url);
-    const data = await response.json();
+        const response = await fetch(url);
+        const data = await response.json();
 
-    return data.find((x) => x.name.toLowerCase() == cityName.toLowerCase()).code;
+        return data.find((x) => x.name.toLowerCase() == cityName.toLowerCase()).code;
+    } catch (error) {
+        alert(error);
+    }
 }
 
 async function getCurrent(code) {
-    const url = 'http://localhost:3030/jsonstore/forecaster/today/' + code;
+    try {
+        const url = 'http://localhost:3030/jsonstore/forecaster/today/' + code;
 
-    const response = await fetch(url);
-    const data = await response.json();
+        const response = await fetch(url);
+        const data = await response.json();
 
-    return data;
+        return data;
+    } catch (error) {
+        alert(error);
+    }
 }
 
 async function getUpcoming(code) {
-    const url = 'http://localhost:3030/jsonstore/forecaster/upcoming/' + code;
+    try {
+        const url = 'http://localhost:3030/jsonstore/forecaster/upcoming/' + code;
 
-    const response = await fetch(url);
-    const data = await response.json();
+        const response = await fetch(url);
+        const data = await response.json();
 
-    return data;
+        return data;
+    } catch (error) {
+        alert(error);
+    }
 }
 
 function e(type, txtContent, className) {

@@ -8,7 +8,7 @@ async function getInfo() {
         const ulElement = document.getElementById('buses');
         ulElement.innerHTML = '';
         const id = input.value;
-        
+
         const response = await fetch(url + id);
         const data = await response.json();
 

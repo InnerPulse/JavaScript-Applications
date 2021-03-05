@@ -8,17 +8,21 @@ function solve() {
     };
 
     async function depart() {
-        const url = `http://localhost:3030/jsonstore/bus/schedule/` + stop.next;
-        const response = await fetch(url);
-        const data = await response.json();
+        try {
+            const url = `http://localhost:3030/jsonstore/bus/schedule/` + stop.next;
+            const response = await fetch(url);
+            const data = await response.json();
 
-        stop = data;
-        console.log(data);
+            stop = data;
+            console.log(data);
 
-        banner.textContent = `Next stop ${stop.name}`;
+            banner.textContent = `Next stop ${stop.name}`;
 
-        departBtn.disabled = true;
-        arriveBtn.disabled = false;
+            departBtn.disabled = true;
+            arriveBtn.disabled = false;
+        } catch (error) {
+            alert(error);
+        }
     }
 
     function arrive() {
