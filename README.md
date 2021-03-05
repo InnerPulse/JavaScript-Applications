@@ -16,3 +16,5 @@
 - The difficulties in the different assignments is increasing with the first being easiest and the last being hardest or with other words in ascending order.
 - In a subfolder in every solution's folder, there is the problems description in which for each problem we have a sample input.
 - These are simple solutions done with the knowledge I have accumulate so far and of course they can go under further optimization.
+- For the majority of the solutions a server is required, it can be found in the different folders, with some updates done to it within the different projects.
+- The server is very basic, it's only for educational purposes, it has no validation or real security implemented.
