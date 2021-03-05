@@ -13,7 +13,7 @@ async function loadPosts(options) {
 
         options.length = 0;
         return Object.values(data).forEach((v) => {
-            const option = createOption('option', v.title, v.id);
+            const option = createOption(v.title, v.id);
             option.value = v.id;
             options.add(option);
         });
@@ -44,8 +44,8 @@ async function getComments(options) {
     }
 }
 
-function createOption(type, txt, value) {
-    const option = document.createElement(type);
+function createOption(txt, value) {
+    const option = document.createElement('option');
     option.text = txt;
     option.value = value;
 
