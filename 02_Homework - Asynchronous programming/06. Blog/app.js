@@ -1,9 +1,6 @@
 (function solution() {
     const optionsMenu = document.getElementById('posts');
     document.getElementById('btnLoadPosts').addEventListener('click', () => loadPosts(optionsMenu));
-(function solution() {
-    const optionsMenu = document.getElementById('posts');
-    document.getElementById('btnLoadPosts').addEventListener('click', () => loadPosts(optionsMenu));
     document.getElementById('btnViewPost').addEventListener('click', () => getComments(optionsMenu));
 })();
 

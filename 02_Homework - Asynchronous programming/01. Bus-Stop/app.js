@@ -17,7 +17,6 @@ async function getInfo() {
         Object.entries(data.buses).map(([bus, time]) => {
             const result = document.createElement('li');
             result.textContent = `Bus ${bus} arrives in ${time} minutes`;
-            console.log(bus, time);
 
             ulElement.append(result);
         });

@@ -1,63 +1,71 @@
-window.addEventListener('load', () => loadRecipes());
-
-async function loadRecipes() {
-    const url = 'http://localhost:3030/jsonstore/cookbook/recipes';
-    const mainElement = document.querySelector('main');
+(async function getRecipesList() {
+    const main = document.querySelector('main');
 
     try {
-        const response = await fetch(url);
+        const response = await fetch('http://localhost:3030/jsonstore/cookbook/recipes');
         const recipes = await response.json();
 
-        if (response.ok == false) {
-            throw new Error(response.statusText);
+        if (!response.ok) {
+            return alert(response.statusText || response.status);
             // Behavior of statusText of an error in Chrome is different than in Mozilla!
-            // Tested in Mozilla.
+            // Tested in Mozilla. In Chrome the result of it is empty string.
         }
-        mainElement.innerHTML = '';
+
+        main.innerHTML = '';
 
         Object.values(recipes)
             .map(createPreview)
-            .forEach((r) => mainElement.append(r));
+            .forEach((r) => main.append(r));
     } catch (error) {
         alert(error.message);
     }
-}
+})();
 
 function createPreview(recipe) {
-    const result = e('article', { className: 'preview' },
+    const result = e(
+        'article',
+        { className: 'preview' },
         e('div', { className: 'title' }, e('h2', {}, recipe.name)),
         e('div', { className: 'small' }, e('img', { src: recipe.img }))
     );
 
-    result.addEventListener('click', () =>
-        getRecipeDetails(recipe._id, result)
-    );
+    result.addEventListener('click', () => getRecipeDetails(recipe._id, result));
     return result;
 }
 
 async function getRecipeDetails(id, preview) {
-    const url = `http://localhost:3030/jsonstore/cookbook/details/${id}`; 
+    const url = `http://localhost:3030/jsonstore/cookbook/details/${id}`;
     // the way the id is implemented could result in a HTML injection but this will never be done in production
     // without validation function even though in this particular case the id doesn't come from the outside.
     const response = await fetch(url);
     const data = await response.json();
 
     if (response.ok == false) {
-        throw new Error(response.statusText);
-        // Behavior of statusText of an error in Chrome is different than in Mozilla!
-        // Tested in Mozilla.
+        alert(response.statusText || response.status);
     }
 
-    const result = e('article', {},
-        e('h2', { className: 'cardH2', onClick: toggleCard }),
-        e('div', { className: 'band' },
+    const result = e(
+        'article',
+        {},
+        e('h2', { onClick: toggleCard }, data.name),
+        e(
+            'div',
+            { className: 'band' },
             e('div', { className: 'thumb' }, e('img', { src: data.img })),
-            e('div', { className: 'ingredients' },
-                e('h3', {}, 'ingredients'),
-                e('ul', {}, data.ingredients.map((i) => e('li', {}, i)))
+            e(
+                'div',
+                { className: 'ingredients' },
+                e('h3', {}, 'Ingredients:'),
+                e(
+                    'ul',
+                    {},
+                    data.ingredients.map((i) => e('li', {}, i))
+                )
             )
         ),
-        e('div', { className: 'description' },
+        e(
+            'div',
+            { className: 'description' },
             e('h3', {}, 'Preparation:'),
             data.steps.map((s) => e('p', {}, s))
         )
@@ -71,26 +79,26 @@ async function getRecipeDetails(id, preview) {
 }
 
 function e(type, attributes, ...content) {
-    const element = document.createElement(type);
+    const result = document.createElement(type);
 
-    for (const [attr, value] of Object.entries(attributes || {})) {
+    for (let [attr, value] of Object.entries(attributes || {})) {
         if (attr.substring(0, 2) == 'on') {
-            element.addEventListener(attr.substring(2).toLowerCase(), value);
+            result.addEventListener(attr.substring(2).toLocaleLowerCase(), value);
         } else {
-            element[attr] = value;
+            result[attr] = value;
         }
     }
 
-    content
-        .reduce((a, c) => a.concat(Array.isArray(c) ? c : [c]), [])
-        .forEach((e) => {
-            if (typeof e == 'string' || typeof e == 'number') {
-                const node = document.createTextNode(e);
-                element.append(node);
-            } else {
-                element.append(e);
-            }
-        });
+    content = content.reduce((a, c) => a.concat(Array.isArray(c) ? c : [c]), []);
 
-    return element;
+    content.forEach((e) => {
+        if (typeof e == 'string' || typeof e == 'number') {
+            const node = document.createTextNode(e);
+            result.appendChild(node);
+        } else {
+            result.appendChild(e);
+        }
+    });
+
+    return result;
 }

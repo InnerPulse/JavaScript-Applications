@@ -1,4 +1,4 @@
-(function attachEvents() {
+(function attachEvents2() {
     document.getElementById('submit').addEventListener('click', getWeather);
 })();
 

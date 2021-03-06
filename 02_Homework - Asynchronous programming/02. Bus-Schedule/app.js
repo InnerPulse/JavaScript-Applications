@@ -3,6 +3,9 @@ function solve() {
     const arriveBtn = document.getElementById('arrive');
     const banner = document.querySelector('#info > span');
 
+    departBtn.disabled = false;
+    arriveBtn.disabled = true;
+
     let stop = {
         next: 'depot',
     };
@@ -14,8 +17,6 @@ function solve() {
             const data = await response.json();
 
             stop = data;
-            console.log(data);
-
             banner.textContent = `Next stop ${stop.name}`;
 
             departBtn.disabled = true;
