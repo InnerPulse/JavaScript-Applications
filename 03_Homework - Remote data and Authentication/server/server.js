@@ -427,6 +427,50 @@
         }
     }
 
+    function parseWhere(query) {
+        const operators = {
+            '<=': (prop, value) => record => record[prop] <= JSON.parse(value),
+            '<': (prop, value) => record => record[prop] < JSON.parse(value),
+            '>=': (prop, value) => record => record[prop] >= JSON.parse(value),
+            '>': (prop, value) => record => record[prop] > JSON.parse(value),
+            '=': (prop, value) => record => record[prop] == JSON.parse(value),
+            ' like ': (prop, value) => record => record[prop].toLowerCase().includes(JSON.parse(value).toLowerCase()),
+            ' in ': (prop, value) => record => JSON.parse(`[${/\((.+?)\)/.exec(value)[1]}]`).includes(record[prop]),
+        };
+        const pattern = new RegExp(`^(.+?)(${Object.keys(operators).join('|')})(.+?)$`, 'i');
+
+        try {
+            let clauses = [query.trim()];
+            let check = (a, b) => b;
+            let acc = true;
+            if (query.match(/ and /gi)) {
+                // inclusive
+                clauses = query.split(/ and /gi);
+                check = (a, b) => a && b;
+                acc = true;
+            } else if (query.match(/ or /gi)) {
+                // optional
+                clauses = query.split(/ or /gi);
+                check = (a, b) => a || b;
+                acc = false;
+            }
+            clauses = clauses.map(createChecker);
+
+            return (record) => clauses
+                .map(c => c(record))
+                .reduce(check, acc);
+        } catch (err) {
+            throw new Error('Could not parse WHERE clause, check your syntax.');
+        }
+
+        function createChecker(clause) {
+            let [match, prop, operator, value] = pattern.exec(clause);
+            [prop, value] = [prop.trim(), value.trim()];
+
+            return operators[operator.toLowerCase()](prop, value);
+        }
+    }
+
 
     function get(context, tokens, query, body) {
         validateRequest(context, tokens);
@@ -435,8 +479,7 @@
 
         try {
             if (query.where) {
-                const [prop, value] = query.where.split('=');
-                responseData = context.storage.query(context.params.collection, { [prop]: JSON.parse(value) });
+                responseData = context.storage.get(context.params.collection).filter(parseWhere(query.where));
             } else if (context.params.collection) {
                 responseData = context.storage.get(context.params.collection, tokens[0]);
             } else {
@@ -489,11 +532,13 @@
 
             if (query.select) {
                 const props = query.select.split(',').filter(p => p != '');
-                responseData = responseData.map(r => {
+                responseData = Array.isArray(responseData) ? responseData.map(transform) : transform(responseData);
+
+                function transform(r) {
                     const result = {};
                     props.forEach(p => result[p] = r[p]);
                     return result;
-                });
+                }
             }
 
             if (query.load) {
@@ -503,18 +548,25 @@
                     const [idSource, collection] = relationTokens.split(':');
                     console.log(`Loading related records from "${collection}" into "${propName}", joined on "_id"="${idSource}"`);
                     const storageSource = collection == 'users' ? context.protectedStorage : context.storage;
-                    responseData.forEach(r => {
+                    responseData = Array.isArray(responseData) ? responseData.map(transform) : transform(responseData);
+
+                    function transform(r) {
                         const seekId = r[idSource];
                         const related = storageSource.get(collection, seekId);
                         delete related.hashedPassword;
                         r[propName] = related;
-                    });
+                        return r;
+                    }
                 });
             }
 
         } catch (err) {
             console.error(err);
-            throw new NotFoundError$1();
+            if (err.message.includes('does not exist')) {
+                throw new NotFoundError$1();
+            } else {
+                throw new RequestError$1(err.message);
+            }
         }
 
         return responseData;
@@ -1166,7 +1218,7 @@
     			species: "Atlantic Blue Marlin",
     			location: "Vitoria, Brazil",
     			bait: "trolled pink",
-    			"captureTime": 80,
+    			captureTime: 80,
     			_createdOn: 1614760714812,
     			_id: "07f260f4-466c-4607-9a33-f7273b24f1b4"
     		},
@@ -1177,9 +1229,67 @@
     			species: "Atlantic Blue Marlin",
     			location: "Buenos Aires, Argentina",
     			bait: "trolled pink",
-    			"captureTime": 120,
+    			captureTime: 120,
     			_createdOn: 1614760782277,
     			_id: "bdabf5e9-23be-40a1-9f14-9117b6702a9d"
+    		}
+    	},
+    	furniture: {
+    	},
+    	orders: {
+    	},
+    	movies: {
+    		"1240549d-f0e0-497e-ab99-eb8f703713d7": {
+    			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
+    			title: "Black Widow",
+    			description: "Natasha Romanoff aka Black Widow confronts the darker parts of her ledger when a dangerous conspiracy with ties to her past arises. Comes on the screens 2020.",
+    			img: "https://miro.medium.com/max/735/1*akkAa2CcbKqHsvqVusF3-w.jpeg",
+    			_createdOn: 1614935055353,
+    			_id: "1240549d-f0e0-497e-ab99-eb8f703713d7"
+    		},
+    		"143e5265-333e-4150-80e4-16b61de31aa0": {
+    			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
+    			title: "Wonder Woman 1984",
+    			description: "Diana must contend with a work colleague and businessman, whose desire for extreme wealth sends the world down a path of destruction, after an ancient artifact that grants wishes goes missing.",
+    			img: "https://pbs.twimg.com/media/ETINgKwWAAAyA4r.jpg",
+    			_createdOn: 1614935181470,
+    			_id: "143e5265-333e-4150-80e4-16b61de31aa0"
+    		},
+    		"a9bae6d8-793e-46c4-a9db-deb9e3484909": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+    			title: "Top Gun 2",
+    			description: "After more than thirty years of service as one of the Navy's top aviators, Pete Mitchell is where he belongs, pushing the envelope as a courageous test pilot and dodging the advancement in rank that would ground him.",
+    			img: "https://i.pinimg.com/originals/f2/a4/58/f2a458048757bc6914d559c9e4dc962a.jpg",
+    			_createdOn: 1614935268135,
+    			_id: "a9bae6d8-793e-46c4-a9db-deb9e3484909"
+    		}
+    	},
+    	likes: {
+    	},
+    	ideas: {
+    		"833e0e57-71dc-42c0-b387-0ce0caf5225e": {
+    			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
+    			title: "Best Pilates Workout To Do At Home",
+    			description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima possimus eveniet ullam aspernatur corporis tempore quia nesciunt nostrum mollitia consequatur. At ducimus amet aliquid magnam nulla sed totam blanditiis ullam atque facilis corrupti quidem nisi iusto saepe, consectetur culpa possimus quos? Repellendus, dicta pariatur! Delectus, placeat debitis error dignissimos nesciunt magni possimus quo nulla, fuga corporis maxime minus nihil doloremque aliquam quia recusandae harum. Molestias dolorum recusandae commodi velit cum sapiente placeat alias rerum illum repudiandae? Suscipit tempore dolore autem, neque debitis quisquam molestias officia hic nesciunt? Obcaecati optio fugit blanditiis, explicabo odio at dicta asperiores distinctio expedita dolor est aperiam earum! Molestias sequi aliquid molestiae, voluptatum doloremque saepe dignissimos quidem quas harum quo. Eum nemo voluptatem hic corrupti officiis eaque et temporibus error totam numquam sequi nostrum assumenda eius voluptatibus quia sed vel, rerum, excepturi maxime? Pariatur, provident hic? Soluta corrupti aspernatur exercitationem vitae accusantium ut ullam dolor quod!",
+    			img: "./images/best-pilates-youtube-workouts-2__medium_4x3.jpg",
+    			_createdOn: 1615033373504,
+    			_id: "833e0e57-71dc-42c0-b387-0ce0caf5225e"
+    		},
+    		"247efaa7-8a3e-48a7-813f-b5bfdad0f46c": {
+    			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
+    			title: "4 Eady DIY Idea To Try!",
+    			description: "Similique rem culpa nemo hic recusandae perspiciatis quidem, quia expedita, sapiente est itaque optio enim placeat voluptates sit, fugit dignissimos tenetur temporibus exercitationem in quis magni sunt vel. Corporis officiis ut sapiente exercitationem consectetur debitis suscipit laborum quo enim iusto, labore, quod quam libero aliquid accusantium! Voluptatum quos porro fugit soluta tempore praesentium ratione dolorum impedit sunt dolores quod labore laudantium beatae architecto perspiciatis natus cupiditate, iure quia aliquid, iusto modi esse!",
+    			img: "./images/brightideacropped.jpg",
+    			_createdOn: 1615033452480,
+    			_id: "247efaa7-8a3e-48a7-813f-b5bfdad0f46c"
+    		},
+    		"b8608c22-dd57-4b24-948e-b358f536b958": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+    			title: "Dinner Recipe",
+    			description: "Consectetur labore et corporis nihil, officiis tempora, hic ex commodi sit aspernatur ad minima? Voluptas nesciunt, blanditiis ex nulla incidunt facere tempora laborum ut aliquid beatae obcaecati quidem reprehenderit consequatur quis iure natus quia totam vel. Amet explicabo quidem repellat unde tempore et totam minima mollitia, adipisci vel autem, enim voluptatem quasi exercitationem dolor cum repudiandae dolores nostrum sit ullam atque dicta, tempora iusto eaque! Rerum debitis voluptate impedit corrupti quibusdam consequatur minima, earum asperiores soluta. A provident reiciendis voluptates et numquam totam eveniet! Dolorum corporis libero dicta laborum illum accusamus ullam?",
+    			img: "./images/dinner.jpg",
+    			_createdOn: 1615033491967,
+    			_id: "b8608c22-dd57-4b24-948e-b358f536b958"
     		}
     	}
     };

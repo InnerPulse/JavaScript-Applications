@@ -7,23 +7,15 @@
 async function loadContacts() {
     const phonebook = document.getElementById('phonebook');
     phonebook.innerHTML = '';
+    const data = await request('http://localhost:3030/jsonstore/phonebook');
 
-    try {
-        const response = await fetch('http://localhost:3030/jsonstore/phonebook');
-
-        if (response.ok == false) {
-            const error = await response.json();
-            return alert(error.message);
-        }
-
-        const data = await response.json();
-
-        Object.values(data)
-            .map(build)
-            .forEach((c) => phonebook.append(c));
-    } catch (error) {
-        return alert(error);
+    if (!data) {
+        return;
     }
+
+    Object.values(data)
+        .map(build)
+        .forEach((c) => phonebook.append(c));
 }
 
 async function createContact() {
@@ -31,24 +23,19 @@ async function createContact() {
     const phone = document.getElementById('phone').value.trim();
 
     if (person && phone) {
-        try {
-            const response = await fetch('http://localhost:3030/jsonstore/phonebook', {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ person, phone }),
-            });
+        const response = request('http://localhost:3030/jsonstore/phonebook', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ person, phone }),
+        });
 
-            if (response.ok == false) {
-                const error = await response.json();
-                return alert(error.message);
-            }
-
-            document.getElementById('person').value = '';
-            document.getElementById('phone').value = '';
-            loadContacts();
-        } catch (error) {
-            return alert(error);
+        if (!response) {
+            return;
         }
+
+        document.getElementById('person').value = '';
+        document.getElementById('phone').value = '';
+        loadContacts();
     } else {
         return alert('All fields are required!');
     }
@@ -56,21 +43,31 @@ async function createContact() {
 
 async function deleteContact(event) {
     const id = event.target.parentNode.id;
+    const response = await request(`http://localhost:3030/jsonstore/phonebook/${id}`, {
+        method: 'delete',
+        headers: { 'Content-Type': 'application/json' },
+    });
 
+    if (!response) {
+        return;
+    }
+
+    event.target.parentNode.remove();
+}
+
+async function request(url, options) {
     try {
-        const response = await fetch(`http://localhost:3030/jsonstore/phonebook/${id}`, {
-            method: 'delete',
-            headers: { 'Content-Type': 'application/json' },
-        });
-
+        const response = await fetch(url, options);
         if (response.ok == false) {
             const error = await response.json();
-            return alert(error.message);
+            alert(error.message);
+            throw new Error(error.message);
         }
-
-        loadContacts();
+        const data = await response.json();
+        return data;
     } catch (error) {
-        return alert(error);
+        alert(error);
+        throw new Error(error);
     }
 }
 
