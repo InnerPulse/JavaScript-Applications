@@ -26,7 +26,7 @@
             .map(createPreview)
             .forEach((r) => main.append(r));
     } catch (error) {
-        alert(error.message);
+        return alert(error.message);
     }
 })();
 

@@ -22,7 +22,7 @@ async function getMessages() {
             .map(({ author, content }) => `${author}: ${content}`)
             .join('\n');
     } catch (error) {
-        alert(error);
+        return alert(error);
     }
 }
 
@@ -42,7 +42,7 @@ async function sendMessage() {
             return alert(error.message);
         }
     } catch (error) {
-        alert(error);
+        return alert(error);
     }
 
     document.getElementById('author').value = '';

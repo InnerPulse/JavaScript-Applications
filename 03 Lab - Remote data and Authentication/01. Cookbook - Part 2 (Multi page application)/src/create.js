@@ -33,6 +33,6 @@ async function onCreateSubmit(event) {
 
         window.location.pathname = 'index.html';
     } else {
-        alert('Unauthorized!');
+        return alert('Unauthorized!');
     }
 }

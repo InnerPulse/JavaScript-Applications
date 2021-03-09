@@ -22,7 +22,7 @@ async function loadContacts() {
             .map(build)
             .forEach((c) => phonebook.append(c));
     } catch (error) {
-        alert(error);
+        return alert(error);
     }
 }
 
@@ -47,7 +47,7 @@ async function createContact() {
             document.getElementById('phone').value = '';
             loadContacts();
         } catch (error) {
-            alert(error);
+            return alert(error);
         }
     } else {
         return alert('All fields are required!');
@@ -70,7 +70,7 @@ async function deleteContact(event) {
 
         loadContacts();
     } catch (error) {
-        alert(error);
+        return alert(error);
     }
 }
 
