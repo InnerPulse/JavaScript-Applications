@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h2>Create Product</h2>
-                                <form action="" method="post">
+                                <form>
                                     <label>Name: <input type="text" name="name"></label>
                                     <label>Price: <input type="text" name="price"></label>
                                     <label>Factor: <input type="text" name="factor"></label>
@@ -52,50 +52,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <img
-                                                    src="https://www.lidl-shop.nl/media/fcf868f9526b38d0b0a43cc2ace72b80.jpeg">
-                                            </td>
-                                            <td>
-                                                <p>Office chair</p>
-                                            </td>
-                                            <td>
-                                                <p>160</p>
-                                            </td>
-                                            <td>
-                                                <p>0.5</p>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img
-                                                    src="https://res.cloudinary.com/maisonsdumonde/image/upload/q_auto,f_auto/w_200/img/grey-3-seater-sofa-bed-200-13-0-175521_9.jpg">
-                                            </td>
-                                            <td>
-                                                <p>Sofa</p>
-                                            </td>
-                                            <td>
-                                                <p>259</p>
-                                            </td>
-                                            <td>
-                                                <p>1.2</p>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox"/>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
-                                <button>Buy</button>
+                                <button id='buyBtn'>Buy</button>
                                 <hr>
                                 <div class="orders">
-                                    <p>Bought furniture: <span>Office chair, Sofa</span></p>
-                                    <p>Total price: <span>419 $</span></p>
-                                    <button>All orders</button>
+                                    <!-- <p>Bought furniture: <span>Office chair, Sofa</span></p>
+                                    <p>Total price: <span>419 $</span></p> -->
+                                    <button id='ordersBtn'>All orders</button>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +70,7 @@
             </div>
         </div>
     </main>
-    <script src="solution.js"></script>
+    <script src="homeLogged.js"></script>
 </body>
 
 </html>

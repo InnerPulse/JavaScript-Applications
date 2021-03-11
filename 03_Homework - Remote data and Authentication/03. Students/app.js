@@ -44,6 +44,10 @@ async function addStudent(event) {
     form.map((input) => (input.value = ''));
     const [firstName, lastName, facultyNumber, grade] = values;
 
+    if (isNaN(grade) || isNaN(facultyNumber)) {
+       return alert('Grade and Faculty Number must be Number');
+    }
+
     const response = await request('http://localhost:3030/jsonstore/collections/students', {
         method: 'post',
         headers: { 'Content-Type': 'Application/json' },
