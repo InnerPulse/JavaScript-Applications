@@ -1,4 +1,5 @@
 import { showHome } from './home.js';
+import { setupNavigation } from './app.js';
 
 export async function request(url, options) {
     try {
@@ -14,15 +15,10 @@ export async function request(url, options) {
 
             if (error.message == 'Invalid access token') {
                 sessionStorage.removeItem('auth');
-                [...document.querySelectorAll('nav .user')].forEach(
-                    (l) => (l.style.display = 'none')
-                );
-                [...document.querySelectorAll('nav .guest')].forEach(
-                    (l) => (l.style.display = 'block')
-                );
                 showHome();
+                setupNavigation();
             }
-            
+
             throw new Error(error.message);
         }
 
