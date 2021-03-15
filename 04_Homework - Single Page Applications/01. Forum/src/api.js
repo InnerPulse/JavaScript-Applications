@@ -1,5 +1,6 @@
 export async function request(url, options) {
     try {
+        debugger;
         const response = await fetch(url, options);
 
         if (response.ok != true) {
@@ -11,6 +12,7 @@ export async function request(url, options) {
         const data = await response.json();
         return data;
     } catch (error) {
-        return alert(error);
+        alert(error);
+        throw new Error(error);
     }
 }

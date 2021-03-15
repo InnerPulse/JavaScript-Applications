@@ -17,7 +17,11 @@ export async function setupCreate(event) {
     document.getElementById('postTitle').textContent = title;
     document.getElementById('postTime').textContent = dateAndTime;
     document.getElementById('postSubscribers').textContent = subscribers;
-    document.getElementById('commentsSubmitForm').addEventListener('submit', async (event) => createNewComment(event, postId));
+
+    if (document.getElementById('commentsSubmitForm').onsubmit === null) {
+        document.getElementById('commentsSubmitForm').onsubmit = async (event) =>
+            createNewComment(event, postId);
+    }
 
     [...document.getElementById('commentsSection').children]
         .filter((e) => e.classList.contains('comment'))
@@ -50,8 +54,6 @@ async function createNewComment(event, postId) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(comment),
     });
-
-    console.log(response);
 
     if (response) {
         event.target.reset();
