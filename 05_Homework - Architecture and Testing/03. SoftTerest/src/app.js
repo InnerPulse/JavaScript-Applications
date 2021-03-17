@@ -5,12 +5,6 @@ import { setupDashboard } from './views/dashboard.js';
 import { setupDetails } from './views/details.js';
 import { setupCreate } from './views/create.js';
 
-// setup views
-// setup nav links
-// show appropriate navigation based on user session
-// start application in default view -> home
-
-
 const main = document.querySelector('main');
 const nav = document.querySelector('nav');
 
@@ -19,7 +13,7 @@ const links = {};
 
 const navigation = {
     goTo,
-    setUserNav
+    setUserNav,
 };
 
 registerView('home', document.getElementById('home-page'), setupHome, 'homeLink');
@@ -59,16 +53,16 @@ function setupNavigation() {
             ev.preventDefault();
             goTo(viewName);
         }
-    })
+    });
 }
 
 function setUserNav() {
     const token = sessionStorage.getItem('authToken');
     if (token != null) {
-        [...nav.querySelectorAll('.user-nav')].forEach(e => e.style.display = 'list-item');
-        [...nav.querySelectorAll('.guest-nav')].forEach(e => e.style.display = 'none');
+        [...nav.querySelectorAll('.user-nav')].forEach((e) => (e.style.display = 'list-item'));
+        [...nav.querySelectorAll('.guest-nav')].forEach((e) => (e.style.display = 'none'));
     } else {
-        [...nav.querySelectorAll('.user-nav')].forEach(e => e.style.display = 'none');
-        [...nav.querySelectorAll('.guest-nav')].forEach(e => e.style.display = 'list-item');
+        [...nav.querySelectorAll('.user-nav')].forEach((e) => (e.style.display = 'none'));
+        [...nav.querySelectorAll('.guest-nav')].forEach((e) => (e.style.display = 'list-item'));
     }
 }

@@ -21,7 +21,7 @@ export function setupRegister(section, navigation) {
         if (email == '' || password == '') {
             return alert('All fields are required!');
         } else if (password != repass) {
-            return alert('Passwords dont\'t match!');
+            return alert("Passwords don't match!");
         }
 
         await register(email, password);

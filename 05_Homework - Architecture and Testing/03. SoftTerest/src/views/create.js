@@ -17,7 +17,7 @@ export function setupCreate(section, navigation) {
         const idea = {
             title: formData.get('title'),
             description: formData.get('description'),
-            img: formData.get('imageURL')
+            img: formData.get('imageURL'),
         };
 
         if (idea.title.length < 6) {

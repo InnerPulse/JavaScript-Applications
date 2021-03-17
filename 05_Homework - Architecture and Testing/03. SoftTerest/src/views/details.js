@@ -4,16 +4,24 @@ import { getIdeaById, deleteIdeaById } from '../api/data.js';
 function createIdeaCard(idea, isOwner, goTo) {
     const result = document.createDocumentFragment();
     result.appendChild(e('img', { className: 'det-img', src: idea.img }));
-    result.appendChild(e('div', { className: 'desc' },
-        e('h2', { className: 'display-5' }, idea.title),
-        e('p', { className: 'infoType' }, 'Description:'),
-        e('p', { className: 'idea-description' }, idea.description)
-    ));
+    result.appendChild(
+        e(
+            'div',
+            { className: 'desc' },
+            e('h2', { className: 'display-5' }, idea.title),
+            e('p', { className: 'infoType' }, 'Description:'),
+            e('p', { className: 'idea-description' }, idea.description)
+        )
+    );
 
     if (isOwner) {
-        result.appendChild(e('div', { className: 'text-center' },
-            e('a', { className: 'btn detb', href: '', onClick: onDelete }, 'Delete')
-        ));
+        result.appendChild(
+            e(
+                'div',
+                { className: 'text-center' },
+                e('a', { className: 'btn detb', href: '', onClick: onDelete }, 'Delete')
+            )
+        );
     }
 
     return result;
