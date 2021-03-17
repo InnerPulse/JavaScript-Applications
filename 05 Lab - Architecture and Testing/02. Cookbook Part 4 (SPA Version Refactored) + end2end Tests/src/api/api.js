@@ -13,6 +13,9 @@ async function request(url, options) {
 			sessionStorage.removeItem('email');
 			sessionStorage.removeItem('userId');
 			sessionStorage.removeItem('authToken');
+
+			window.location.pathname = '/';
+
 		}
 
 		throw new Error(error.message);
