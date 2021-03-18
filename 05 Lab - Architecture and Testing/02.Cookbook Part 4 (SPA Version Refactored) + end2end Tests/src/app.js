@@ -1,12 +1,12 @@
-import { logout as apiLogout } from './api/data.js';
-import { setupCatalog } from './views/catalog.js';
-import { setupCreate } from './views/create.js';
-import { setupLogin } from './views/login.js';
-import { setupRegister } from './views/register.js';
-import { setupDetails } from './views/details.js';
-import { setupEdit } from './views/edit.js';
-import { createNavigation } from './navigation.js';
 import { setupHome } from './views/home.js';
+import { setupEdit } from './views/edit.js';
+import { setupLogin } from './views/login.js';
+import { setupCreate } from './views/create.js';
+import { setupDetails } from './views/details.js';
+import { setupCatalog } from './views/catalog.js';
+import { createNavigation } from './navigation.js';
+import { setupRegister } from './views/register.js';
+import { logout as apiLogout } from './api/data.js';
 
 window.addEventListener('load', async () => {
 	const nav = document.querySelector('nav');
