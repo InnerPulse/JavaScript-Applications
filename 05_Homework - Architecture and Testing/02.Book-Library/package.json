@@ -2,7 +2,7 @@
     "name": "booklibrary",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "index.html",
     "devDependencies": {
         "mocha": "^8.2.0",
         "http-server": "^0.12.3",
