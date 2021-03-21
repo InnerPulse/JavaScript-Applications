@@ -1,0 +1,17 @@
+#notification {
+    width: 250px;
+    display: block;
+    color: black;
+    background-color: rgb(255, 166, 170);
+    padding: 20px 80px;
+    position: fixed;
+    top: 130px;
+    right: 150px;
+}
+
+.close-notification {
+    font-weight: 700;
+    left: 10px;
+    position: relative;
+    cursor: pointer;
+}
