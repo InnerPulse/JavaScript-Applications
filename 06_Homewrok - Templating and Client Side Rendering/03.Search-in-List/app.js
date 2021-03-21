@@ -1,4 +1,4 @@
-import { towns } from './towns.js';
+import { towns } from './townsdata.js';
 import { html, render } from '../node_modules/lit-html/lit-html.js';
 
 const searchTemplate = (towns, match) => html`
