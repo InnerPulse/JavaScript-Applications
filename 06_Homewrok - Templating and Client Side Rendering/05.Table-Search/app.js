@@ -13,7 +13,7 @@ const input = document.getElementById('searchField');
 const endpoint = 'http://localhost:3030/jsonstore/advanced/table';
 
 const initialize = async () => {
-    input.addEventListener('keyup', () => update(list, input.value));
+    input.addEventListener('input', () => update(list, input.value));
 
     const studentsData = await (await fetch(endpoint)).json();
     const list = Object.values(studentsData);
