@@ -1,4 +1,4 @@
-import { cats } from './catSeeder.js';
+import { cats } from './catsData.js';
 import { styleMap } from '../node_modules/lit-html/directives/style-map.js';
 import { html, render } from '../node_modules/lit-html/lit-html.js';
 
