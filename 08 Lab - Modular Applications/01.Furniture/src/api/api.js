@@ -42,9 +42,9 @@ export async function register(email, password) {
 export async function logout() {
     const result = await get(settings.host + '/users/logout');
 
-    sessionStorage.removeItem('userId', result._id);
-    sessionStorage.removeItem('email', result.email);
-    sessionStorage.removeItem('authToken', result.accessToken);
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('authToken');
 
     return result;
 }
