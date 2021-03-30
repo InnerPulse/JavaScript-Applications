@@ -72,8 +72,7 @@ async function request(url, options) {
 
         try {
             // logout return empty body and the server still returns content type as 'application/json'
-            // so I can't check if content type is present therefor that's the way I'm handling it with
-            // a extra try catch block
+            // so I can't check if content type is present therefor that's why I'm using an extra try catch block
             return await response.json();
         } catch (err) {
             return response;
