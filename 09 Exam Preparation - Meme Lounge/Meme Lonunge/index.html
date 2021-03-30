@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Meme Lounge</title>
+        <link rel="stylesheet" href="/style/styles.css" />
+        <script type="module" src="/src/app.js"></script>
+    </head>
+
+    <body>
+        <div id="container">
+            <!-- Notifications -->
+
+            <!-- Navigation -->
+            <nav>
+                <a href="/all-memes">All Memes</a>
+                <!-- Logged users -->
+                <div id="user" class="user">
+                    <a href="/create">Create Meme</a>
+                    <div id="greetingUser" class="profile">
+                        <!-- <span>Welcome, {email}</span> -->
+                        <a id="myProfile" href="/my-profile">My Profile</a>
+                        <a id="logoutBtn" href="javascript:void(0)">Logout</a>
+                    </div>
+                </div>
+                <!-- Guest users -->
+                <div id="guest" class="guest">
+                    <div class="profile">
+                        <a href="/login">Login</a>
+                        <a href="/register">Register</a>
+                    </div>
+                    <a class="active" href="/">Home Page</a>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main></main>
+
+            <!-- Footer  -->
+            <footer class="footer">
+                <p>Created by InnerPulse</p>
+            </footer>
+        </div>
+    </body>
+</html>
