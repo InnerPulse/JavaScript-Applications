@@ -46,7 +46,7 @@ export default function registerPage(ctx) {
         }
 
         if (password !== repeatPass) {
-            return notify("Passwords don't match");
+            return notify("Passwords don't match!");
         }
 
         await register(username, email, password, gender);

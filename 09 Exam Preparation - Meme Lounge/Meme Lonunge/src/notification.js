@@ -1,26 +1,19 @@
 export const notify = (msg) => {
-    const section = document.createElement('section');
-    const span = document.createElement('span');
-    const div = document.createElement('div');
-    section.setAttribute('id', 'notifications');
-    div.setAttribute('class', 'notification');
-    div.setAttribute('id', 'errorBox');
-    span.textContent = msg;
-
-    div.append(span);
-    section.append(div);
-
-    document.getElementById('container').insertAdjacentElement('afterbegin', section);
+    const box = document.getElementById('errorBox');
+    box.innerHTML = `<span>${msg}</span>`;
 
     let lock = false;
-    div.style.display = 'block';
-    div.addEventListener('click', () => section.remove());
+    box.style.display = 'block';
+    box.addEventListener('click', () => {
+        box.style.display = 'none';
+        lock = true;
+    });
 
     setTimeout(() => {
         if (lock) {
             return;
         }
-        section.remove();
+        box.style.display = 'none';
         lock = true;
     }, 3000);
 };
