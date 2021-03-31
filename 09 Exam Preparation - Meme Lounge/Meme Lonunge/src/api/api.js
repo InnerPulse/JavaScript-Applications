@@ -74,14 +74,6 @@ async function request(url, options) {
             return response;
         }
     } catch (err) {
-        if (err.message === "Login or password don't match") {
-            throw err;
-        }
-
-        if (err.message === 'A user with the same email already exists') {
-            throw err;
-        }
-
         if (err.message === 'Invalid access token') {
             sessionStorage.removeItem('auth');
 
