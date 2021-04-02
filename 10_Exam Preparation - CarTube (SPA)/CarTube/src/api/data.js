@@ -8,16 +8,16 @@ export const logout = api.logout;
 export const register = api.register;
 
 // vehicle collection
-export async function createAd(body) {
-    return await api.post(host + '/data/cars', body);
+export async function deleteAd(id) {
+    return await api.del(host + '/data/cars/' + id);
 }
 
 export async function getAdById(id) {
     return await api.get(host + '/data/cars/' + id);
 }
 
-export async function deleteAd(id) {
-    return await api.del(host + '/data/cars/' + id);
+export async function createAd(body) {
+    return await api.post(host + '/data/cars', body);
 }
 
 export async function editAd(id, body) {
