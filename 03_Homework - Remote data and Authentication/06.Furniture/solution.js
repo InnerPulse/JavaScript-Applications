@@ -34,13 +34,12 @@ function create(type, content, attributes, appendElements) {
   return el;
 }
 
-async function renderTabel() {
+async function renderTable() {
   const data = await getAll();
   const tbody = document.querySelector('tbody');
   tbody.innerHTML = '';
 
   data.forEach(el => {
-    console.log(el);
     const img = create('img', undefined, { src: el.img });
     const imgTd = create('td', undefined, undefined, [img]);
 
@@ -61,4 +60,4 @@ async function renderTabel() {
   });
 }
 
-renderTabel();
+renderTable();

@@ -9,7 +9,7 @@ async function request(url, options) {
     return data;
 }
 
-//func to load all books from server and dispay them
+// func to load all books from the server and display them
 async function getAllBooks() {
     const books = await request('http://localhost:3030/jsonstore/collections/books');
 
@@ -30,7 +30,7 @@ async function getAllBooks() {
     }
 }
 
-//func for creating a new book
+// func for creating a new book
 async function createBook(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -48,7 +48,7 @@ async function createBook(event) {
     getAllBooks();
 }
 
-//func for updating an existing book using ID
+// func for updating an existing book using ID
 async function updateBook(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -70,7 +70,7 @@ async function updateBook(event) {
     getAllBooks();
 }
 
-//func for deleting an existing book using ID
+// func for deleting an existing book using ID
 async function deleteBook(id) {
     await request('http://localhost:3030/jsonstore/collections/books/' + id, {
         method: 'delete'
@@ -88,7 +88,7 @@ function start() {
         document.getElementById('editForm').style.display = 'none';
         
     });
-    //event listener on the delete and edit btn.
+    // event listener on the delete and edit btns.
     document.querySelector('table').addEventListener('click', handleTableClick);
 
     getAllBooks();
