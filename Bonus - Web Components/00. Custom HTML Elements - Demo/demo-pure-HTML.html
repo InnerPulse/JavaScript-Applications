@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Custom Elements Demo</title>
+        <style>
+            /* This style won't be applied to the shadow DOM as it can't see it, similar to he nested functions
+             (the inner one sees the parent's scope, but the parent can't see the child's scope ) */
+            h1 {
+                color: blueviolet;
+            }
+        </style>
+    </head>
+    <body>
+        <template id="my-template">
+            <style>
+                /* default color */
+                h1 {
+                    color: aqua;
+                }
+            </style>
+
+            <article>
+                <!-- Slots are used for dynamic content if any -->
+                <h1><slot name="title">Default Title</slot></h1>
+                <p><slot name="description">Default Description</slot></p>
+            </article>
+        </template>
+
+        <main id="content">
+            <card-element custom-attribute="blue">
+                <span slot="title">Title from slot</span>
+                <ul slot="description">
+                    <li>First</li>
+                    <li>Second</li>
+                    <li>Third</li>
+                </ul>
+            </card-element>
+
+            <card-element custom-attribute="green"></card-element>
+            <card-element custom-attribute="red"></card-element>
+            <card-element id="test-for-attribute-test" style="cursor: pointer" visible="true"></card-element>
+        </main>
+
+        <button id="actionBtn" style="font-weight: bolder">Click to show the custom element</button>
+
+        <script type="module">
+            // creating custom element
+            class cardElement extends HTMLElement {
+                constructor() {
+                    super();
+                    // creating shadow DOM, when mode is 'open' it creates attribute called 'shadowRoot' which points to the DOM root
+                    this.attachShadow({ mode: 'open' }); // open or close, in any ways it returns reference to the DOM root, when open we can modify it
+                }
+
+                // overriding three of the lifecycle events of a component (the browser will automatically invoked them!) ->
+
+                connectedCallback() {
+                    // invoked when the element is appended
+                    console.log('connected');
+
+                    const content = tmp.content.cloneNode(true);
+
+                    const color = this.getAttribute('custom-attribute');
+                    content.querySelector('h1').style.color = color; // which color, comes from the outside as attribute
+
+                    this.shadowRoot.append(content); // true stand for a deep copy (the node and the whole subtree)
+                }
+
+                static get observedAttributes() {
+                    return ['visible'];
+                }
+
+                // for this event we need the getter from above
+                attributeChangedCallback(name, oldValue, newValue) {
+                    // invoked when the element's attribute is changed
+                    console.log('changed');
+                    console.log(name, oldValue, newValue);
+                }
+
+                disconnectedCallback() {
+                    // invoked when the element is removed
+                    console.log('disconnected');
+                }
+            }
+
+            const tmp = document.getElementById('my-template');
+            window.customElements.define('card-element', cardElement);
+
+            document.getElementById('test-for-attribute-test').addEventListener('click', (e) => {
+                e.currentTarget.setAttribute('visible', false);
+            });
+
+            const main = document.getElementById('content');
+            document.getElementById('actionBtn').addEventListener('click', () => {
+                const myElement = document.createElement('card-element');
+                myElement.style.cursor = 'pointer';
+                main.append(myElement); // lifecycle events won't be invoked if the element is not appended to the DOM
+                myElement.addEventListener('click', (e) => e.currentTarget.remove());
+            });
+        </script>
+    </body>
+</html>

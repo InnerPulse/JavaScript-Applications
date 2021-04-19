@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <title>Pop-up Widget - Component</title>
+   </head>
+
+   <body>
+      <h1>Pop-up Widget - Component</h1>
+
+      <popup-widget img="./img/info.png"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores, dolorum? </popup-widget>
+      <popup-widget img="./img/default.png">Molestias, a fuga omnis bus cupiditate quasi sequi accusamus blanditiis numquam. </popup-widget>
+
+      <template id="popup-template">
+         <style>
+            .wrapper {
+               margin: 5px;
+               position: relative;
+            }
+
+            .info {
+               font-size: 0.8rem;
+               width: 200px;
+               display: inline-block;
+               border: 1px solid black;
+               padding: 10px;
+               background: white;
+               border-radius: 10px;
+               opacity: 0;
+               transition: 0.6s all;
+               position: absolute;
+               bottom: 20px;
+               left: 10px;
+               z-index: 3;
+            }
+
+            img {
+               width: 1.2rem;
+            }
+
+            .icon:hover + .info,
+            .icon:focus + .info {
+               opacity: 1;
+            }
+         </style>
+         <span class="wrapper">
+            <span class="icon" tabindex="0">
+               <img />
+            </span>
+
+            <span class="info">
+               <slot>POPUP TEXT</slot>
+            </span>
+         </span>
+      </template>
+
+      <script type="module">
+         class PopupWidget extends HTMLElement {
+            constructor() {
+               super();
+               this.attachShadow({ mode: 'open' });
+               this.img = this.getAttribute('img');
+            }
+
+            connectedCallback() {
+               const element = template.content.cloneNode(true);
+               element.querySelector('img').src = this.img;
+               this.shadowRoot.append(element);
+            }
+         }
+
+         const template = document.getElementById('popup-template');
+         window.customElements.define('popup-widget', PopupWidget);
+      </script>
+   </body>
+</html>

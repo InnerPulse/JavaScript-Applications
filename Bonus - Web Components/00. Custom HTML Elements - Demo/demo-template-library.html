@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Custom Elements Demo</title>
+        <script src="index.js" type="module"></script>
+    </head>
+
+    <body>
+        <main id="content">
+            <card-element color="blue">
+                <span slot="title">Title from slot</span>
+                <ul slot="description">
+                    <li>First</li>
+                    <li>Second</li>
+                    <li>Third</li>
+                </ul>
+            </card-element>
+        </main>
+    </body>
+</html>
