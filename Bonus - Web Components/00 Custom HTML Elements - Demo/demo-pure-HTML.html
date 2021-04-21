@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Custom Elements Demo</title>
         <style>
-            /* This style won't be applied to the shadow DOM as it can't see it, similar to he nested functions
+            /* This style won't be applied to the shadow DOM as it can't see it, similar to the nested functions
              (the inner one sees the parent's scope, but the parent can't see the child's scope ) */
             h1 {
                 color: blueviolet;
@@ -51,8 +51,8 @@
             class cardElement extends HTMLElement {
                 constructor() {
                     super();
-                    // creating shadow DOM, when mode is 'open' it creates attribute called 'shadowRoot' which points to the DOM root
-                    this.attachShadow({ mode: 'open' }); // open or close, in any ways it returns reference to the DOM root, when open we can modify it
+                    // creating shadow DOM and attribute called 'shadowRoot' which points to the DOM's root
+                    this.attachShadow({ mode: 'open' }); // open or close, in any ways it returns reference to the DOM root, when open we can modify it from the top level DOM
                 }
 
                 // overriding three of the lifecycle events of a component (the browser will automatically invoked them!) ->
@@ -64,7 +64,7 @@
                     const content = tmp.content.cloneNode(true);
 
                     const color = this.getAttribute('custom-attribute');
-                    content.querySelector('h1').style.color = color; // which color, comes from the outside as attribute
+                    content.querySelector('h1').style.color = color; // the color comes from the outside as attribute
 
                     this.shadowRoot.append(content); // true stand for a deep copy (the node and the whole subtree)
                 }
@@ -75,7 +75,7 @@
 
                 // for this event we need the getter from above
                 attributeChangedCallback(name, oldValue, newValue) {
-                    // invoked when the element's attribute is changed
+                    // invoked when the element's attribute/s is/are changed
                     console.log('changed');
                     console.log(name, oldValue, newValue);
                 }
