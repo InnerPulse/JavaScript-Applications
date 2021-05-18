@@ -1,4 +1,4 @@
-<h1 align="center"> JavaScript Applications - March 2021 <h1>
+<h1 align="center"> JavaScript Applications - February 2021 <h1>
 <p align="center">
   <a href="https://softuni.bg/trainings/3218/js-applications-february-2021/internal">
     <img src="https://i.imgur.com/arAr8gZ.png" />
